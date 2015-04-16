@@ -24,7 +24,7 @@ $find->addFindCriterion('ID_Contacts', $_REQUEST['id']);
 
 // enable if sort is needed
 // $find->addSortRule('Status', 1, FILEMAKER_SORT_DESCEND);
-// $find->addSortRule('TimeOpen', 2, FILEMAKER_SORT_DESCEND);
+// $find->addSortRule('Order', 2, FILEMAKER_SORT_DESCEND);
 
 // support up to the range set for found set
 $find->setRange(0, 1000);
@@ -62,20 +62,8 @@ foreach ($fm_records as $value) {
 
 $zip->close();
 
-
 $file_type = strtolower(array_pop(explode('.', $filename)));
 $file_name = array_pop(explode('/', $filename));
-
-if ($file_type == 'mp3') {
-
-    $mime_type = 'audio/mpeg';
-} elseif ($file_type == 'pdf') {
-
-    $mime_type = 'application/pdf';
-} else {
-
-    $mime_type = 'application/octet-stream';
-}
 
 header('Pragma: public');
 header("Expires: " . gmdate("D, d M Y H:i:s", mktime(date("H") + 4, date("i"), date("s"), date("m"), date("d"), date("Y"))) . " GMT");
@@ -86,7 +74,7 @@ header("Content-Description: File Transfer");
 header("Content-Transfer-Encoding: binary");
 header("X-Download-Options: noopen");
 header("X-Content-Type-Options: nosniff");
-header('Content-Type: ' . $mime_type);
+header('Content-Type: application/octet-stream');
 header('Content-Disposition: attachment; filename=' . "\"$file_name\"");
 
 // put the content in the file
